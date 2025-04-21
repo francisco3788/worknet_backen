@@ -68,7 +68,7 @@ class SolicitarRecuperacionAPIView(APIView):
 
         return Response({'mensaje': 'Se ha enviado un correo con las instrucciones para recuperar la contraseña.'}, status=200)
 
-# recuperacion de contraseña
+# recuperacion de contraseña danilo perraaa
 class RestablecerContrasenaAPIView(APIView):
     def post(self, request, uidb64, token):
         nueva_password = request.data.get("password")
