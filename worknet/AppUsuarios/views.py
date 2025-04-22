@@ -85,3 +85,21 @@ class RestablecerContrasenaAPIView(APIView):
         usuario.set_password(nueva_password)
         usuario.save()
         return Response({'mensaje': 'Contraseña restablecida correctamente'}, status=status.HTTP_200_OK)
+
+
+#actualizar la cotraseña
+class ConfirmarRestablecerContrasenaAPIView(APIView):
+    def post(self, request, uidb64, token):
+        try:
+            uid = urlsafe_base64_decode(uidb64).decode()
+            usuario = Usuario.objects.get(pk=uid)
+        except Exception:
+            return Response({'error': 'Enlace inválido.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if not default_token_generator.check_token(usuario, token):
+            return Response({'error': 'Token inválido o expirado.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        nueva = request.data.get("nueva_password")
+        usuario.set_password(nueva)
+        usuario.save()
+        return Response({'mensaje': 'Contraseña actualizada correctamente.'}, status=status.HTTP_200_OK)
