@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from AppUsuarios.models import Usuario
-from .models import Empresa
+from .models import Empresa ,PerfilEmpresa
 from django.contrib.auth.password_validation import validate_password
 
 class EmpresaRegistroSerializer(serializers.ModelSerializer):
@@ -38,3 +38,9 @@ class EmpresaRegistroSerializer(serializers.ModelSerializer):
         )
 
         return empresa
+
+#perfil empresa
+class PerfilEmpresaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PerfilEmpresa
+        fields = '__all__'

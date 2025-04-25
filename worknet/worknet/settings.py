@@ -39,9 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'AppUsuarios',
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
     'AppEmpresas',
-
+    'AppCandidatos',
 ]
 
 AUTH_USER_MODEL = 'AppUsuarios.Usuario'
@@ -143,3 +144,10 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'pachomolina72@gmail.com'  # Cambia esto por el tuyo real
 EMAIL_HOST_PASSWORD = 'xfpufvdplxifvbnq'  # Tu contraseña de aplicación generada
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}

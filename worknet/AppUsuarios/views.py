@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import CandidatoRegistroSerializer, LoginSerializer  # 👈 IMPORTADO LoginSerializer
+from rest_framework.authtoken.models import Token  # 👈 Import necesario
 
 from django.core.mail import send_mail
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
@@ -28,12 +29,16 @@ class LoginAPIView(APIView):
             usuario = serializer.validated_data["usuario"]
             tipo = "empresa" if hasattr(usuario, "empresa") else "candidato"
 
+            # 🔑 Obtener o crear el token del usuario
+            token, _ = Token.objects.get_or_create(user=usuario)
+
             return Response({
                 "mensaje": "Inicio de sesión exitoso",
                 "usuario_id": usuario.id,
                 "nombre": usuario.nombre_completo,
                 "email": usuario.email,
-                "tipo_usuario": tipo
+                "tipo_usuario": tipo,
+                "token": token.key  # 👈 Aquí se retorna el token
             }, status=status.HTTP_200_OK)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
